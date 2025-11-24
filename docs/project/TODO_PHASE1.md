@@ -58,13 +58,13 @@ pnpm add -D @testing-library/jest-dom @testing-library/react
 ```
 
 **設定ファイル作成**:
-- [ ] `.eslintrc.json` - TypeScript strict rules
-- [ ] `.prettierrc` - Code formatting
-- [ ] `.vscode/settings.json` - VS Code統合
+- [x] `.eslintrc.json` - TypeScript strict rules
+- [x] `.prettierrc` - Code formatting
+- [x] `.vscode/settings.json` - VS Code統合
 
 **テスト要件**:
-- [ ] `pnpm lint` がエラーなく実行される
-- [ ] `pnpm format` で全ファイルがフォーマットされる
+- [x] `pnpm lint` がエラーなく実行される
+- [x] `pnpm format` で全ファイルがフォーマットされる
 
 **完了条件**:
 - [x] ESLint設定完了
@@ -130,8 +130,8 @@ export default defineConfig({
 ```
 
 **テスト要件**:
-- [ ] `tests/setup.ts` - テストセットアップファイル作成
-- [ ] サンプルテスト作成して動作確認
+- [x] `tests/setup.ts` - テストセットアップファイル作成
+- [x] サンプルテスト作成して動作確認
 
 **完了条件**:
 - [x] Vitest設定完了
@@ -181,7 +181,7 @@ export default defineConfig({
 ```
 
 **テスト要件**:
-- [ ] `tests/e2e/basic.test.ts` - トップページアクセステスト
+- [x] `tests/e2e/basic.test.ts` - トップページアクセステスト
 
 **完了条件**:
 - [x] Playwright設定完了
