@@ -5,15 +5,27 @@
 
 ---
 
+## 最新確認 (2025-11-24)
+- `pnpm format:check` : 成功
+- `pnpm lint` : 成功 (eslint.config.mjs で flat config 化・Next.js/TypeScript/Prettier 連携済み)
+- `pnpm dev --hostname 127.0.0.1 --port 3000` : 起動確認 (Next.js 16.0.3 Turbopack、Ready 表示を確認)
+- `pnpm build` : 成功 (Next.js 16.0.3、`--webpack` フラグでビルド)
+- `pnpm test:unit` / `pnpm test:integration` : 成功 (Vitest, jsdom)
+- `pnpm test:e2e --project=chromium` : 成功 (Playwright)
+
+---
+
 ## 1.1 プロジェクト初期化 (P0) - 2人日
 
 ### Task 1.1.1: Next.js 15プロジェクトセットアップ
+
 **担当**: Team E (Infrastructure)
 **優先度**: P0
 **依存**: なし
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```bash
 # 1. プロジェクト初期化
 pnpm create next-app@latest . --typescript --tailwind --app --src-dir
@@ -32,11 +44,13 @@ mkdir -p tests/{unit,integration,e2e}
 ```
 
 **テスト要件** (TDD):
+
 - [ ] `tests/integration/next-app.test.ts` - Next.jsアプリが正常起動するか
 - [ ] ルートパス `/` にアクセスして200レスポンス確認
 - [ ] TypeScript strict mode が有効か確認
 
 **完了条件**:
+
 - [x] Next.js 15プロジェクトが起動する
 - [x] ディレクトリ構造が整っている
 - [x] package.jsonに必要な依存関係が記載されている
@@ -45,12 +59,14 @@ mkdir -p tests/{unit,integration,e2e}
 ---
 
 ### Task 1.1.2: ESLint/Prettier設定
+
 **担当**: Team E
 **優先度**: P0
 **依存**: 1.1.1
 **所要時間**: 0.3人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier
@@ -58,15 +74,18 @@ pnpm add -D @testing-library/jest-dom @testing-library/react
 ```
 
 **設定ファイル作成**:
-- [ ] `.eslintrc.json` - TypeScript strict rules
-- [ ] `.prettierrc` - Code formatting
-- [ ] `.vscode/settings.json` - VS Code統合
+
+- [x] `.eslintrc.json` - TypeScript strict rules
+- [x] `.prettierrc` - Code formatting
+- [x] `.vscode/settings.json` - VS Code統合
 
 **テスト要件**:
-- [ ] `pnpm lint` がエラーなく実行される
-- [ ] `pnpm format` で全ファイルがフォーマットされる
+
+- [x] `pnpm lint` がエラーなく実行される (eslint.config.mjs で成功)
+- [x] `pnpm format` で全ファイルがフォーマットされる
 
 **完了条件**:
+
 - [x] ESLint設定完了
 - [x] Prettier設定完了
 - [x] VS Code統合確認
@@ -75,12 +94,14 @@ pnpm add -D @testing-library/jest-dom @testing-library/react
 ---
 
 ### Task 1.1.3: Vitest設定
+
 **担当**: Team E
 **優先度**: P0
 **依存**: 1.1.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add -D vitest @vitest/ui
 pnpm add -D @testing-library/react @testing-library/user-event
@@ -89,6 +110,7 @@ pnpm add -D c8 # カバレッジ
 ```
 
 **設定ファイル**:
+
 ```typescript
 // vitest.config.ts
 import { defineConfig } from 'vitest/config';
@@ -116,6 +138,7 @@ export default defineConfig({
 ```
 
 **package.json スクリプト追加**:
+
 ```json
 {
   "scripts": {
@@ -130,30 +153,35 @@ export default defineConfig({
 ```
 
 **テスト要件**:
-- [ ] `tests/setup.ts` - テストセットアップファイル作成
-- [ ] サンプルテスト作成して動作確認
+
+- [x] `tests/setup.ts` - テストセットアップファイル作成
+- [x] サンプルテスト作成して動作確認
 
 **完了条件**:
+
 - [x] Vitest設定完了
 - [x] テストが実行できる
-- [x] カバレッジレポートが生成される
-- [x] CI対応のスクリプトが動作
+- [ ] カバレッジレポートが生成される
+- [ ] CI対応のスクリプトが動作
 
 ---
 
 ### Task 1.1.4: Playwright E2Eテスト設定
+
 **担当**: Team E
 **優先度**: P1
 **依存**: 1.1.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add -D @playwright/test
 pnpm exec playwright install
 ```
 
 **設定ファイル**:
+
 ```typescript
 // playwright.config.ts
 import { defineConfig, devices } from '@playwright/test';
@@ -169,9 +197,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
   },
-  projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  ],
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
     command: 'pnpm dev',
     url: 'http://localhost:3000',
@@ -181,22 +207,26 @@ export default defineConfig({
 ```
 
 **テスト要件**:
-- [ ] `tests/e2e/basic.test.ts` - トップページアクセステスト
+
+- [x] `tests/e2e/basic.test.ts` - トップページアクセステスト
 
 **完了条件**:
+
 - [x] Playwright設定完了
 - [x] E2Eテストが実行できる
-- [x] CI統合準備完了
+- [ ] CI統合準備完了
 
 ---
 
 ### Task 1.1.5: GitHub Actions CI設定
+
 **担当**: Team E
 **優先度**: P0
 **依存**: 1.1.2, 1.1.3
 **所要時間**: 0.7人日
 
 **実装ステップ**:
+
 ```yaml
 # .github/workflows/ci.yml
 name: CI
@@ -263,21 +293,24 @@ jobs:
 ```
 
 **完了条件**:
-- [x] GitHub Actions設定完了
-- [x] PRでCIが自動実行される
-- [x] テスト失敗時にPRがブロックされる
+
+- [ ] GitHub Actions設定完了
+- [ ] PRでCIが自動実行される
+- [ ] テスト失敗時にPRがブロックされる
 
 ---
 
 ## 1.2 データベース設計 (P0) - 2.5人日
 
 ### Task 1.2.1: Prismaセットアップ
+
 **担当**: Team D (Database)
 **優先度**: P0
 **依存**: 1.1.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add @prisma/client
 pnpm add -D prisma
@@ -290,23 +323,27 @@ echo "DATABASE_URL=\"postgresql://user:password@localhost:5432/learning_trainer\
 ```
 
 **テスト要件**:
+
 - [ ] PostgreSQLコンテナが起動するか確認
 - [ ] Prisma接続テスト
 
 **完了条件**:
-- [x] Prismaがインストールされている
-- [x] prisma/schema.prisma が存在する
-- [x] .env に DATABASE_URL が設定されている
+
+- [ ] Prismaがインストールされている
+- [ ] prisma/schema.prisma が存在する
+- [ ] .env に DATABASE_URL が設定されている
 
 ---
 
 ### Task 1.2.2: Prismaスキーマ設計
+
 **担当**: Team D
 **優先度**: P0
 **依存**: 1.2.1
 **所要時間**: 1.5人日
 
 **実装ステップ**:
+
 ```prisma
 // prisma/schema.prisma
 
@@ -506,6 +543,7 @@ model LearningProgress {
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/unit/db/schema.test.ts
 describe('Prisma Schema', () => {
@@ -531,20 +569,23 @@ describe('Prisma Schema', () => {
 ```
 
 **完了条件**:
-- [x] スキーマ定義完了
-- [x] リレーション設定完了
-- [x] インデックス最適化完了
-- [x] テストが全てパス
+
+- [ ] スキーマ定義完了
+- [ ] リレーション設定完了
+- [ ] インデックス最適化完了
+- [ ] テストが全てパス
 
 ---
 
 ### Task 1.2.3: マイグレーション実行
+
 **担当**: Team D
 **優先度**: P0
 **依存**: 1.2.2
 **所要時間**: 0.3人日
 
 **実装ステップ**:
+
 ```bash
 # pgvector拡張インストール
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -557,19 +598,22 @@ pnpm prisma generate
 ```
 
 **完了条件**:
-- [x] マイグレーション成功
-- [x] Prisma Client生成完了
-- [x] Prisma Studio で確認可能
+
+- [ ] マイグレーション成功
+- [ ] Prisma Client生成完了
+- [ ] Prisma Studio で確認可能
 
 ---
 
 ### Task 1.2.4: シードデータ作成
+
 **担当**: Team D
 **優先度**: P2
 **依存**: 1.2.3
 **所要時間**: 0.2人日
 
 **実装ステップ**:
+
 ```typescript
 // prisma/seed.ts
 import { PrismaClient } from '@prisma/client';
@@ -616,21 +660,24 @@ main()
 ```
 
 **完了条件**:
-- [x] シードスクリプト作成
-- [x] `pnpm prisma db seed` で実行可能
-- [x] テストデータが投入される
+
+- [ ] シードスクリプト作成
+- [ ] `pnpm prisma db seed` で実行可能
+- [ ] テストデータが投入される
 
 ---
 
 ## 1.3 認証システム (P0) - 2人日
 
 ### Task 1.3.1: NextAuth.js設定
+
 **担当**: Team B (Backend)
 **優先度**: P0
 **依存**: 1.2.3
 **所要時間**: 1人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add next-auth@beta @auth/prisma-adapter
 pnpm add bcryptjs
@@ -667,10 +714,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const isValid = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
+        const isValid = await bcrypt.compare(credentials.password as string, user.passwordHash);
 
         if (!isValid) {
           return null;
@@ -696,6 +740,7 @@ export { handlers as GET, handlers as POST } from '@/lib/auth/config';
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/integration/auth.test.ts
 describe('Authentication', () => {
@@ -722,20 +767,23 @@ describe('Authentication', () => {
 ```
 
 **完了条件**:
-- [x] NextAuth.js設定完了
-- [x] ログイン/ログアウト動作確認
-- [x] セッション管理動作確認
-- [x] テストが全てパス
+
+- [ ] NextAuth.js設定完了
+- [ ] ログイン/ログアウト動作確認
+- [ ] セッション管理動作確認
+- [ ] テストが全てパス
 
 ---
 
 ### Task 1.3.2: 認証ミドルウェア
+
 **担当**: Team B
 **優先度**: P0
 **依存**: 1.3.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```typescript
 // src/middleware.ts
 import { auth } from '@/lib/auth/config';
@@ -766,6 +814,7 @@ export const config = {
 ```
 
 **テスト要件**:
+
 ```typescript
 // tests/integration/middleware.test.ts
 describe('Auth Middleware', () => {
@@ -782,19 +831,22 @@ describe('Auth Middleware', () => {
 ```
 
 **完了条件**:
-- [x] ミドルウェア実装完了
-- [x] 未認証ユーザーのリダイレクト確認
-- [x] テストが全てパス
+
+- [ ] ミドルウェア実装完了
+- [ ] 未認証ユーザーのリダイレクト確認
+- [ ] テストが全てパス
 
 ---
 
 ### Task 1.3.3: ユーザー登録API
+
 **担当**: Team B
 **優先度**: P0
 **依存**: 1.3.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```typescript
 // src/app/api/auth/signup/route.ts
 import { NextRequest, NextResponse } from 'next/server';
@@ -819,10 +871,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
 
     // パスワードハッシュ化
@@ -851,20 +900,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: error.errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: error.errors }, { status: 400 });
     }
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/integration/auth-signup.test.ts
 describe('POST /api/auth/signup', () => {
@@ -895,21 +939,24 @@ describe('POST /api/auth/signup', () => {
 ```
 
 **完了条件**:
-- [x] サインアップAPI実装完了
-- [x] バリデーション動作確認
-- [x] テストが全てパス
+
+- [ ] サインアップAPI実装完了
+- [ ] バリデーション動作確認
+- [ ] テストが全てパス
 
 ---
 
 ## 1.4 tRPC基盤 (P0) - 1人日
 
 ### Task 1.4.1: tRPCセットアップ
+
 **担当**: Team B
 **優先度**: P0
 **依存**: 1.1.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/api/trpc/init.ts
 import { initTRPC, TRPCError } from '@trpc/server';
@@ -976,19 +1023,22 @@ export { handler as GET, handler as POST };
 ```
 
 **完了条件**:
-- [x] tRPCセットアップ完了
-- [x] protectedProcedure動作確認
-- [x] クライアント接続確認
+
+- [ ] tRPCセットアップ完了
+- [ ] protectedProcedure動作確認
+- [ ] クライアント接続確認
 
 ---
 
 ### Task 1.4.2: tRPCクライアント設定
+
 **担当**: Team B
 **優先度**: P0
 **依存**: 1.4.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/api/trpc/client.ts
 import { createTRPCReact } from '@trpc/react-query';
@@ -1050,6 +1100,7 @@ export default function RootLayout({
 ```
 
 **テスト要件**:
+
 ```typescript
 // tests/integration/trpc-client.test.ts
 describe('tRPC Client', () => {
@@ -1064,18 +1115,20 @@ describe('tRPC Client', () => {
 ```
 
 **完了条件**:
-- [x] クライアント設定完了
-- [x] React Queryラッパー動作確認
-- [x] テストが全てパス
+
+- [ ] クライアント設定完了
+- [ ] React Queryラッパー動作確認
+- [ ] テストが全てパス
 
 ---
 
 ## Phase 1 完了チェックリスト
 
 ### 必須項目 (P0)
-- [ ] Next.js 15プロジェクト起動
-- [ ] ESLint/Prettier設定
-- [ ] Vitest動作確認
+
+- [x] Next.js 15プロジェクト起動
+- [x] ESLint/Prettier設定
+- [x] Vitest動作確認
 - [ ] GitHub Actions CI動作
 - [ ] Prismaスキーマ完成
 - [ ] マイグレーション実行
@@ -1083,10 +1136,12 @@ describe('tRPC Client', () => {
 - [ ] tRPC基盤動作
 
 ### 推奨項目 (P1)
-- [ ] Playwright E2E設定
+
+- [x] Playwright E2E設定
 - [ ] Codecovカバレッジ連携
 
 ### オプション項目 (P2)
+
 - [ ] シードデータ投入
 - [ ] Prisma Studio動作確認
 
@@ -1097,6 +1152,7 @@ describe('tRPC Client', () => {
 ✅ Phase 1完了後 → **Phase 2: Content Analysis Agent** へ
 
 Phase 2では以下を実装:
+
 - LangChain.js基盤
 - Content Analyzerエージェント
 - ファイルアップロード機能

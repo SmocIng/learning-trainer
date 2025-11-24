@@ -8,7 +8,7 @@
 
 ```
 Phase 0: ✅ 完了 (100%)
-Phase 1: ⏳ 進行中 (0%)
+Phase 1: ⏳ 進行中 (29%)
 Phase 2: 📋 未着手 (0%)
 Phase 3: 📋 未着手 (0%)
 Phase 4: 📋 未着手 (0%)
@@ -48,6 +48,7 @@ Phase 7: 📋 未着手 (0%)
 - [x] CONTRIBUTING.md作成
 
 **成果物**:
+
 - リポジトリ: https://github.com/SmocIng/learning-trainer
 - ドキュメント: 完備
 
@@ -55,18 +56,18 @@ Phase 7: 📋 未着手 (0%)
 
 ## Phase 1: Foundation ⏳
 
-**ステータス**: 📋 未着手
+**ステータス**: ⏳ 進行中
 **期間**: 未定
 **担当**: Team B, Team D, Team E
 
-### タスク進捗 (0/8)
+### タスク進捗 (4/14)
 
-#### 1.1 プロジェクト初期化 (0/5)
+#### 1.1 プロジェクト初期化 (4/5)
 
-- [ ] Task 1.1.1: Next.js 15プロジェクトセットアップ
-- [ ] Task 1.1.2: ESLint/Prettier設定
-- [ ] Task 1.1.3: Vitest設定
-- [ ] Task 1.1.4: Playwright E2Eテスト設定
+- [x] Task 1.1.1: Next.js 15プロジェクトセットアップ
+- [x] Task 1.1.2: ESLint/Prettier設定
+- [x] Task 1.1.3: Vitest設定
+- [x] Task 1.1.4: Playwright E2Eテスト設定
 - [ ] Task 1.1.5: GitHub Actions CI設定
 
 #### 1.2 データベース設計 (0/4)
@@ -90,6 +91,7 @@ Phase 7: 📋 未着手 (0%)
 ### GitHub Issues
 
 **作成予定**:
+
 - Issue #1: [FEATURE] Next.js 15プロジェクトセットアップ
 - Issue #2: [FEATURE] ESLint/Prettier設定
 - Issue #3: [FEATURE] Vitest設定
@@ -143,6 +145,7 @@ Phase 7: 📋 未着手 (0%)
 ## Phase 3-7: 📋 未着手
 
 詳細なタスク分解は対応するTODOファイルを参照してください:
+
 - Phase 3: [TODO_PHASE3.md](TODO_PHASE3.md) (作成予定)
 - Phase 4: [TODO_PHASE4.md](TODO_PHASE4.md) (作成予定)
 - Phase 5: [TODO_PHASE5.md](TODO_PHASE5.md) (作成予定)
@@ -154,14 +157,18 @@ Phase 7: 📋 未着手 (0%)
 ## 🎯 マイルストーン
 
 ### M0: Project Initialization ✅
+
 **達成日**: 2025-11-24
+
 - [x] リポジトリ作成完了
 - [x] ドキュメント完備
 - [x] WBS/TODO定義完了
 
 ### M1: Foundation Complete 🎯
+
 **目標日**: 未定
 **達成条件**:
+
 - [ ] Next.js 15アプリが起動する
 - [ ] 認証機能が動作する
 - [ ] Prisma + PostgreSQLが動作する
@@ -170,8 +177,10 @@ Phase 7: 📋 未着手 (0%)
 - [ ] テストカバレッジ80%以上
 
 ### M2: Content Analysis Complete 📅
+
 **目標日**: 未定
 **達成条件**:
+
 - [ ] ファイルアップロード機能が動作する
 - [ ] Content Analyzerエージェントが動作する
 - [ ] コンテンツ解析結果がDBに保存される
@@ -180,6 +189,7 @@ Phase 7: 📋 未着手 (0%)
 - [ ] テストカバレッジ80%以上
 
 ### M3-M7: 📅
+
 詳細は[WBS.md](WBS.md)を参照
 
 ---
@@ -187,26 +197,31 @@ Phase 7: 📋 未着手 (0%)
 ## 📈 チーム別進捗
 
 ### Team A: Frontend
+
 **担当Phase**: Phase 4 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team B: Backend API
+
 **担当Phase**: Phase 1, 2 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team C: AI Agents
+
 **担当Phase**: Phase 2, 3 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team D: Database
+
 **担当Phase**: Phase 1 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team E: Infrastructure
+
 **担当Phase**: Phase 1, 6 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
@@ -221,9 +236,11 @@ Phase 7: 📋 未着手 (0%)
 
 ## 📝 更新履歴
 
-| 日付 | 更新者 | 内容 |
-|------|--------|------|
-| 2025-11-24 | SmocIng | 初版作成、Phase 0完了 |
+| 日付       | 更新者  | 内容                                       |
+| ---------- | ------- | ------------------------------------------ |
+| 2025-11-24 | SmocIng | 初版作成、Phase 0完了                      |
+| 2025-11-24 | SmocIng | Phase 1: Task 1.1.1/1.1.2 着手・完了を更新 |
+| 2025-11-24 | SmocIng | Phase 1: Task 1.1.3/1.1.4 完了を更新      |
 
 ---
 
@@ -274,6 +291,7 @@ Week 3-4:
 ---
 
 **更新方法**:
+
 ```bash
 # タスク完了時
 1. このファイルの該当タスクを✅に変更

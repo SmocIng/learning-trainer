@@ -8,12 +8,14 @@
 ## 2.1 LangChain.js基盤 (P0) - 2人日
 
 ### Task 2.1.1: LangChain.js & OpenAI設定
+
 **担当**: Team C (AI Agents)
 **優先度**: P0
 **依存**: Phase 1完了
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add langchain @langchain/openai @langchain/anthropic @langchain/core
 pnpm add @langchain/community
@@ -54,6 +56,7 @@ export function createLLM(provider: 'openai' | 'anthropic' = 'openai') {
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/unit/agents/config.test.ts
 describe('LLM Configuration', () => {
@@ -70,6 +73,7 @@ describe('LLM Configuration', () => {
 ```
 
 **完了条件**:
+
 - [x] LangChain.jsインストール完了
 - [x] LLM設定完了
 - [x] APIキー動作確認
@@ -78,12 +82,14 @@ describe('LLM Configuration', () => {
 ---
 
 ### Task 2.1.2: BaseAgent抽象クラス
+
 **担当**: Team C
 **優先度**: P0
 **依存**: 2.1.1
 **所要時間**: 0.8人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/agents/base/base-agent.ts
 import { ChatOpenAI } from '@langchain/openai';
@@ -127,10 +133,7 @@ export abstract class BaseAgent<TInput = any, TOutput = any> {
   ): Promise<string> {
     const startTime = Date.now();
 
-    const messages = [
-      new SystemMessage(this.systemPrompt),
-      new HumanMessage(userMessage),
-    ];
+    const messages = [new SystemMessage(this.systemPrompt), new HumanMessage(userMessage)];
 
     const response = await this.llm.invoke(messages, {
       temperature: options?.temperature,
@@ -183,6 +186,7 @@ export abstract class BaseAgent<TInput = any, TOutput = any> {
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/unit/agents/base-agent.test.ts
 class TestAgent extends BaseAgent<string, string> {
@@ -226,6 +230,7 @@ describe('BaseAgent', () => {
 ```
 
 **完了条件**:
+
 - [x] BaseAgentクラス実装完了
 - [x] callLLMメソッド動作確認
 - [x] エラーハンドリング確認
@@ -234,12 +239,14 @@ describe('BaseAgent', () => {
 ---
 
 ### Task 2.1.3: LangSmith統合
+
 **担当**: Team C
 **優先度**: P1
 **依存**: 2.1.1
 **所要時間**: 0.7人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add langsmith
 ```
@@ -277,6 +284,7 @@ export async function traceExecution(data: TraceData): Promise<void> {
 ```
 
 **環境変数追加**:
+
 ```bash
 # .env
 LANGCHAIN_TRACING_V2="true"
@@ -285,6 +293,7 @@ LANGCHAIN_PROJECT="learning-trainer"
 ```
 
 **完了条件**:
+
 - [x] LangSmith設定完了
 - [x] トレース送信確認
 - [x] LangSmith UIでトレース確認
@@ -294,12 +303,14 @@ LANGCHAIN_PROJECT="learning-trainer"
 ## 2.2 ファイルアップロード (P0) - 1.5人日
 
 ### Task 2.2.1: ファイルアップロードAPI
+
 **担当**: Team B (Backend)
 **優先度**: P0
 **依存**: Phase 1完了
 **所要時間**: 1人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add @vercel/blob
 pnpm add pdf-parse mammoth # PDF, DOCX解析
@@ -321,87 +332,83 @@ const uploadContentSchema = z.object({
 });
 
 export const contentRouter = router({
-  upload: protectedProcedure
-    .input(uploadContentSchema)
-    .mutation(async ({ input, ctx }) => {
-      const { fileName, fileType, fileSize, base64Data } = input;
+  upload: protectedProcedure.input(uploadContentSchema).mutation(async ({ input, ctx }) => {
+    const { fileName, fileType, fileSize, base64Data } = input;
 
-      // ファイルサイズ制限 (10MB)
-      if (fileSize > 10 * 1024 * 1024) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'File size exceeds 10MB limit',
-        });
-      }
+    // ファイルサイズ制限 (10MB)
+    if (fileSize > 10 * 1024 * 1024) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'File size exceeds 10MB limit',
+      });
+    }
 
-      // サポートされているファイル形式
-      const supportedTypes = ['application/pdf', 'text/markdown', 'text/plain'];
-      if (!supportedTypes.includes(fileType)) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Unsupported file type',
-        });
-      }
+    // サポートされているファイル形式
+    const supportedTypes = ['application/pdf', 'text/markdown', 'text/plain'];
+    if (!supportedTypes.includes(fileType)) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'Unsupported file type',
+      });
+    }
 
-      try {
-        // Vercel Blobにアップロード
-        const buffer = Buffer.from(base64Data, 'base64');
-        const blob = await put(fileName, buffer, {
-          access: 'public',
-        });
-
-        // DBに保存
-        const content = await prisma.content.create({
-          data: {
-            title: fileName,
-            filePath: blob.url,
-            fileType,
-          },
-        });
-
-        return {
-          success: true,
-          contentId: content.id,
-          url: blob.url,
-        };
-      } catch (error) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to upload file',
-        });
-      }
-    }),
-
-  getById: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ input }) => {
-      const content = await prisma.content.findUnique({
-        where: { id: input.id },
+    try {
+      // Vercel Blobにアップロード
+      const buffer = Buffer.from(base64Data, 'base64');
+      const blob = await put(fileName, buffer, {
+        access: 'public',
       });
 
-      if (!content) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Content not found',
-        });
-      }
-
-      return content;
-    }),
-
-  list: protectedProcedure
-    .query(async () => {
-      const contents = await prisma.content.findMany({
-        orderBy: { createdAt: 'desc' },
-        take: 50,
+      // DBに保存
+      const content = await prisma.content.create({
+        data: {
+          title: fileName,
+          filePath: blob.url,
+          fileType,
+        },
       });
 
-      return contents;
-    }),
+      return {
+        success: true,
+        contentId: content.id,
+        url: blob.url,
+      };
+    } catch (error) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Failed to upload file',
+      });
+    }
+  }),
+
+  getById: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
+    const content = await prisma.content.findUnique({
+      where: { id: input.id },
+    });
+
+    if (!content) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Content not found',
+      });
+    }
+
+    return content;
+  }),
+
+  list: protectedProcedure.query(async () => {
+    const contents = await prisma.content.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+    });
+
+    return contents;
+  }),
 });
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/integration/content-upload.test.ts
 describe('Content Upload API', () => {
@@ -446,6 +453,7 @@ describe('Content Upload API', () => {
 ```
 
 **完了条件**:
+
 - [x] アップロードAPI実装完了
 - [x] ファイルサイズ制限動作確認
 - [x] サポート形式チェック動作確認
@@ -454,12 +462,14 @@ describe('Content Upload API', () => {
 ---
 
 ### Task 2.2.2: ファイルアップロードUI
+
 **担当**: Team A (Frontend)
 **優先度**: P0
 **依存**: 2.2.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```typescript
 // src/components/features/content/file-upload.tsx
 'use client';
@@ -540,6 +550,7 @@ export function FileUpload() {
 ```
 
 **テスト要件**:
+
 ```typescript
 // tests/unit/components/file-upload.test.tsx
 describe('FileUpload Component', () => {
@@ -561,6 +572,7 @@ describe('FileUpload Component', () => {
 ```
 
 **完了条件**:
+
 - [x] UI実装完了
 - [x] ファイル選択動作確認
 - [x] アップロード動作確認
@@ -571,12 +583,14 @@ describe('FileUpload Component', () => {
 ## 2.3 Content Analyzer Agent (P0) - 4人日
 
 ### Task 2.3.1: テキスト抽出サービス
+
 **担当**: Team C
 **優先度**: P0
 **依存**: 2.2.1
 **所要時間**: 1人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/services/content/text-extractor.ts
 import pdf from 'pdf-parse';
@@ -661,6 +675,7 @@ export class TextExtractor {
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/unit/services/text-extractor.test.ts
 describe('TextExtractor', () => {
@@ -688,6 +703,7 @@ describe('TextExtractor', () => {
 ```
 
 **完了条件**:
+
 - [x] PDF抽出動作確認
 - [x] Markdown抽出動作確認
 - [x] メタデータ取得確認
@@ -696,12 +712,14 @@ describe('TextExtractor', () => {
 ---
 
 ### Task 2.3.2: Content Analyzerエージェント実装
+
 **担当**: Team C
 **優先度**: P0
 **依存**: 2.1.2, 2.3.1
 **所要時間**: 2人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/agents/content-analyzer/types.ts
 import { z } from 'zod';
@@ -744,10 +762,7 @@ export interface ContentAnalyzerInput {
   };
 }
 
-export class ContentAnalyzerAgent extends BaseAgent<
-  ContentAnalyzerInput,
-  ContentAnalysisOutput
-> {
+export class ContentAnalyzerAgent extends BaseAgent<ContentAnalyzerInput, ContentAnalysisOutput> {
   private parser: StructuredOutputParser<ContentAnalysisOutput>;
 
   constructor(llm: any) {
@@ -764,8 +779,7 @@ export class ContentAnalyzerAgent extends BaseAgent<
       const { content, metadata } = input.data;
 
       // コンテンツが長すぎる場合は要約
-      const truncatedContent =
-        content.length > 10000 ? content.slice(0, 10000) + '...' : content;
+      const truncatedContent = content.length > 10000 ? content.slice(0, 10000) + '...' : content;
 
       const userMessage = `Analyze the following educational content:
 
@@ -792,6 +806,7 @@ Provide a comprehensive analysis.`;
 ```
 
 **テスト要件** (TDD):
+
 ```typescript
 // tests/unit/agents/content-analyzer.test.ts
 describe('ContentAnalyzerAgent', () => {
@@ -846,6 +861,7 @@ describe('ContentAnalyzerAgent', () => {
 ```
 
 **完了条件**:
+
 - [x] エージェント実装完了
 - [x] 構造化出力動作確認
 - [x] 長文コンテンツ対応確認
@@ -854,12 +870,14 @@ describe('ContentAnalyzerAgent', () => {
 ---
 
 ### Task 2.3.3: コンテンツ解析サービス統合
+
 **担当**: Team B
 **優先度**: P0
 **依存**: 2.3.1, 2.3.2
 **所要時間**: 1人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/services/content/content-analysis.service.ts
 import { TextExtractor } from './text-extractor';
@@ -891,10 +909,7 @@ export class ContentAnalysisService {
     }
 
     // 2. テキスト抽出
-    const extractedText = await this.textExtractor.extract(
-      content.filePath,
-      content.fileType
-    );
+    const extractedText = await this.textExtractor.extract(content.filePath, content.fileType);
 
     // 3. エージェントで解析
     const analysis = await this.analyzerAgent.execute({
@@ -921,6 +936,7 @@ export class ContentAnalysisService {
 ```
 
 **tRPC API追加**:
+
 ```typescript
 // src/lib/api/trpc/routers/content.ts (追加)
 import { ContentAnalysisService } from '@/lib/services/content/content-analysis.service';
@@ -940,6 +956,7 @@ export const contentRouter = router({
 ```
 
 **テスト要件**:
+
 ```typescript
 // tests/integration/content-analysis-service.test.ts
 describe('ContentAnalysisService', () => {
@@ -970,6 +987,7 @@ describe('ContentAnalysisService', () => {
 ```
 
 **完了条件**:
+
 - [x] サービス統合完了
 - [x] tRPC API動作確認
 - [x] DB保存確認
@@ -980,12 +998,14 @@ describe('ContentAnalysisService', () => {
 ## 2.4 ベクトル埋め込み生成 (P1) - 2.5人日
 
 ### Task 2.4.1: OpenAI Embeddings設定
+
 **担当**: Team C
 **優先度**: P1
 **依存**: 2.3.1
 **所要時間**: 0.5人日
 
 **実装ステップ**:
+
 ```bash
 pnpm add @langchain/openai
 ```
@@ -1023,6 +1043,7 @@ export class EmbeddingService {
 ```
 
 **テスト要件**:
+
 ```typescript
 // tests/unit/services/embedding.test.ts
 describe('EmbeddingService', () => {
@@ -1049,6 +1070,7 @@ describe('EmbeddingService', () => {
 ```
 
 **完了条件**:
+
 - [x] Embeddings設定完了
 - [x] 単一テキスト変換確認
 - [x] バッチ変換確認
@@ -1057,12 +1079,14 @@ describe('EmbeddingService', () => {
 ---
 
 ### Task 2.4.2: pgvectorストレージ実装
+
 **担当**: Team D
 **優先度**: P1
 **依存**: 2.4.1, 1.2.3
 **所要時間**: 1人日
 
 **実装ステップ**:
+
 ```sql
 -- PostgreSQLでvector拡張有効化
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -1110,6 +1134,7 @@ export class ContentRepository {
 ```
 
 **テスト要件**:
+
 ```typescript
 // tests/integration/content-repository.test.ts
 describe('ContentRepository', () => {
@@ -1144,6 +1169,7 @@ describe('ContentRepository', () => {
 ```
 
 **完了条件**:
+
 - [x] pgvector設定完了
 - [x] 埋め込み保存確認
 - [x] 類似度検索動作確認
@@ -1152,12 +1178,14 @@ describe('ContentRepository', () => {
 ---
 
 ### Task 2.4.3: 埋め込み生成統合
+
 **担当**: Team B
 **優先度**: P1
 **依存**: 2.4.1, 2.4.2, 2.3.3
 **所要時間**: 1人日
 
 **実装ステップ**:
+
 ```typescript
 // src/lib/services/content/content-analysis.service.ts (更新)
 import { EmbeddingService } from '../embeddings/embedding.service';
@@ -1187,10 +1215,7 @@ export class ContentAnalysisService {
     }
 
     // テキスト抽出
-    const extractedText = await this.textExtractor.extract(
-      content.filePath,
-      content.fileType
-    );
+    const extractedText = await this.textExtractor.extract(content.filePath, content.fileType);
 
     // エージェントで解析
     const analysis = await this.analyzerAgent.execute({
@@ -1225,6 +1250,7 @@ export class ContentAnalysisService {
 ```
 
 **完了条件**:
+
 - [x] 埋め込み生成統合完了
 - [x] エンドツーエンド動作確認
 - [x] テストが全てパス
@@ -1234,6 +1260,7 @@ export class ContentAnalysisService {
 ## Phase 2 完了チェックリスト
 
 ### 必須項目 (P0)
+
 - [ ] LangChain.js設定完了
 - [ ] BaseAgentクラス実装
 - [ ] ファイルアップロードAPI動作
@@ -1243,11 +1270,13 @@ export class ContentAnalysisService {
 - [ ] コンテンツ解析サービス統合完了
 
 ### 推奨項目 (P1)
+
 - [ ] LangSmith統合
 - [ ] 埋め込み生成動作確認
 - [ ] pgvector類似度検索動作確認
 
 ### オプション項目 (P2)
+
 - [ ] 他のファイル形式サポート (DOCX, PPTXなど)
 - [ ] 画像OCR対応
 
@@ -1258,6 +1287,7 @@ export class ContentAnalysisService {
 ✅ Phase 2完了後 → **Phase 3: Learning System Core** へ
 
 Phase 3では以下を実装:
+
 - Learning Plannerエージェント
 - Question Generatorエージェント
 - Evaluatorエージェント

@@ -17,6 +17,7 @@ git checkout -b feature/issue-123-description
 ```
 
 命名規則:
+
 - `feature/` - 新機能
 - `fix/` - バグ修正
 - `docs/` - ドキュメント
@@ -52,6 +53,7 @@ git commit -m "docs: update API documentation"
 ```
 
 フォーマット:
+
 ```
 <type>: <subject>
 
@@ -61,6 +63,7 @@ git commit -m "docs: update API documentation"
 ```
 
 Types:
+
 - `feat`: 新機能
 - `fix`: バグ修正
 - `docs`: ドキュメント

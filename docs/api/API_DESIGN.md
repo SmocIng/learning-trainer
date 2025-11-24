@@ -36,14 +36,16 @@ headers: {
 学習セッションを開始します。
 
 **Input**:
+
 ```typescript
 {
-  contentId: string;  // UUID
+  contentId: string; // UUID
   mode: 'quick' | 'standard' | 'intensive' | 'custom';
 }
 ```
 
 **Output**:
+
 ```typescript
 {
   sessionId: string;
@@ -53,10 +55,11 @@ headers: {
 ```
 
 **Example**:
+
 ```typescript
 const result = await trpc.learning.startSession.mutate({
   contentId: '123e4567-e89b-12d3-a456-426614174000',
-  mode: 'standard'
+  mode: 'standard',
 });
 ```
 
@@ -67,6 +70,7 @@ const result = await trpc.learning.startSession.mutate({
 現在の問題を取得します。
 
 **Input**:
+
 ```typescript
 {
   sessionId: string;
@@ -74,13 +78,14 @@ const result = await trpc.learning.startSession.mutate({
 ```
 
 **Output**:
+
 ```typescript
 {
   question: Question;
   progress: {
     current: number;
     total: number;
-  };
+  }
 }
 ```
 
@@ -91,6 +96,7 @@ const result = await trpc.learning.startSession.mutate({
 回答を送信し、評価を受けます。
 
 **Input**:
+
 ```typescript
 {
   sessionId: string;
@@ -100,6 +106,7 @@ const result = await trpc.learning.startSession.mutate({
 ```
 
 **Output**:
+
 ```typescript
 {
   isCorrect: boolean;
@@ -118,8 +125,9 @@ const result = await trpc.learning.startSession.mutate({
 ユーザー設定を取得します。
 
 **Output**:
+
 ```typescript
-UserPreferences
+UserPreferences;
 ```
 
 ---
@@ -129,13 +137,15 @@ UserPreferences
 ユーザー設定を更新します。
 
 **Input**:
+
 ```typescript
-Partial<UserPreferences>
+Partial<UserPreferences>;
 ```
 
 **Output**:
+
 ```typescript
-UserPreferences
+UserPreferences;
 ```
 
 ---
@@ -147,6 +157,7 @@ UserPreferences
 コンテンツ一覧を取得します。
 
 **Input**:
+
 ```typescript
 {
   tags?: string[];
@@ -157,6 +168,7 @@ UserPreferences
 ```
 
 **Output**:
+
 ```typescript
 {
   items: Content[];
@@ -177,9 +189,9 @@ interface Question {
   id: string;
   type: QuestionType;
   content: string;
-  options?: string[];      // 選択問題の場合
+  options?: string[]; // 選択問題の場合
   correctAnswer: string;
-  difficulty: number;      // 1-10
+  difficulty: number; // 1-10
   hints?: string[];
   metadata: Record<string, any>;
 }
