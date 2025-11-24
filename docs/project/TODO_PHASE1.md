@@ -294,9 +294,9 @@ jobs:
 
 **完了条件**:
 
-- [ ] GitHub Actions設定完了
-- [ ] PRでCIが自動実行される
-- [ ] テスト失敗時にPRがブロックされる
+- [x] GitHub Actions設定完了
+- [x] PRでCIが自動実行される
+- [x] テスト失敗時にPRがブロックされる
 
 ---
 
@@ -1129,7 +1129,7 @@ describe('tRPC Client', () => {
 - [x] Next.js 15プロジェクト起動
 - [x] ESLint/Prettier設定
 - [x] Vitest動作確認
-- [ ] GitHub Actions CI動作
+- [x] GitHub Actions CI動作
 - [ ] Prismaスキーマ完成
 - [ ] マイグレーション実行
 - [ ] NextAuth.js認証動作
