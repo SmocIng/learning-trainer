@@ -76,6 +76,7 @@ git checkout -b feature/issue-123-learning-mode-selection
 ```
 
 命名規則:
+
 - `feature/` - 新機能
 - `fix/` - バグ修正
 - `docs/` - ドキュメント
@@ -106,6 +107,7 @@ describe('UserService', () => {
 ```
 
 テスト実行（失敗することを確認）:
+
 ```bash
 pnpm test:unit
 ```
@@ -123,6 +125,7 @@ export class UserService {
 ```
 
 テスト実行（成功することを確認）:
+
 ```bash
 pnpm test:unit
 ```

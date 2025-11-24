@@ -166,12 +166,14 @@ src/
 #### 3.1.1 学習画面モジュール (`components/features/learning`)
 
 **責務**:
+
 - コンテンツ表示
 - 問題表示
 - 回答入力
 - リアルタイムフィードバック
 
 **主要コンポーネント**:
+
 ```typescript
 // ContentViewer.tsx - コンテンツ表示
 interface ContentViewerProps {
@@ -202,11 +204,13 @@ interface FeedbackPanelProps {
 #### 3.1.2 設定画面モジュール (`components/features/settings`)
 
 **責務**:
+
 - ユーザー設定の表示・編集
 - プリセット管理
 - 設定の保存・ロード
 
 **主要コンポーネント**:
+
 ```typescript
 // SettingsPanel.tsx
 // LearningModeSelector.tsx
@@ -235,9 +239,7 @@ abstract class BaseAgent {
 
 // ContentAnalyzerAgent
 class ContentAnalyzerAgent extends BaseAgent {
-  async execute(input: {
-    filePath: string;
-  }): Promise<{
+  async execute(input: { filePath: string }): Promise<{
     content: ParsedContent;
     metadata: ContentMetadata;
   }>;
@@ -245,11 +247,7 @@ class ContentAnalyzerAgent extends BaseAgent {
 
 // LearningPlannerAgent
 class LearningPlannerAgent extends BaseAgent {
-  async execute(input: {
-    userId: string;
-    contentId: string;
-    currentProgress: Progress;
-  }): Promise<{
+  async execute(input: { userId: string; contentId: string; currentProgress: Progress }): Promise<{
     nextAction: 'continue' | 'review' | 'advance';
     difficulty: number;
     questionTypes: QuestionType[];
@@ -270,10 +268,7 @@ class QuestionGeneratorAgent extends BaseAgent {
 
 // EvaluatorAgent
 class EvaluatorAgent extends BaseAgent {
-  async execute(input: {
-    question: Question;
-    userAnswer: Answer;
-  }): Promise<{
+  async execute(input: { question: Question; userAnswer: Answer }): Promise<{
     isCorrect: boolean;
     score: number;
     feedback: Feedback;
@@ -282,10 +277,7 @@ class EvaluatorAgent extends BaseAgent {
 
 // MemoryAgent
 class MemoryAgent extends BaseAgent {
-  async execute(input: {
-    userId: string;
-    contentId: string;
-  }): Promise<{
+  async execute(input: { userId: string; contentId: string }): Promise<{
     reviewSchedule: ReviewSchedule;
     flashcards: Flashcard[];
   }>;
@@ -408,39 +400,47 @@ Response → UI (Feedback + Next Question)
 export const learningRouter = router({
   // セッション開始
   startSession: protectedProcedure
-    .input(z.object({
-      contentId: z.string().uuid(),
-      mode: z.enum(['quick', 'standard', 'intensive', 'custom']),
-    }))
+    .input(
+      z.object({
+        contentId: z.string().uuid(),
+        mode: z.enum(['quick', 'standard', 'intensive', 'custom']),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       // 実装
     }),
 
   // 問題取得
   getQuestion: protectedProcedure
-    .input(z.object({
-      sessionId: z.string().uuid(),
-    }))
+    .input(
+      z.object({
+        sessionId: z.string().uuid(),
+      })
+    )
     .query(async ({ input, ctx }) => {
       // 実装
     }),
 
   // 回答送信
   submitAnswer: protectedProcedure
-    .input(z.object({
-      sessionId: z.string().uuid(),
-      questionId: z.string().uuid(),
-      answer: z.any(),
-    }))
+    .input(
+      z.object({
+        sessionId: z.string().uuid(),
+        questionId: z.string().uuid(),
+        answer: z.any(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       // 実装
     }),
 
   // セッション終了
   endSession: protectedProcedure
-    .input(z.object({
-      sessionId: z.string().uuid(),
-    }))
+    .input(
+      z.object({
+        sessionId: z.string().uuid(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       // 実装
     }),
@@ -449,10 +449,9 @@ export const learningRouter = router({
 // src/lib/api/trpc/routers/user.ts
 export const userRouter = router({
   // 設定取得
-  getPreferences: protectedProcedure
-    .query(async ({ ctx }) => {
-      // 実装
-    }),
+  getPreferences: protectedProcedure.query(async ({ ctx }) => {
+    // 実装
+  }),
 
   // 設定更新
   updatePreferences: protectedProcedure
@@ -463,10 +462,12 @@ export const userRouter = router({
 
   // 進捗取得
   getProgress: protectedProcedure
-    .input(z.object({
-      contentId: z.string().uuid().optional(),
-      timeRange: z.enum(['week', 'month', 'all']).optional(),
-    }))
+    .input(
+      z.object({
+        contentId: z.string().uuid().optional(),
+        timeRange: z.enum(['week', 'month', 'all']).optional(),
+      })
+    )
     .query(async ({ input, ctx }) => {
       // 実装
     }),
@@ -476,19 +477,23 @@ export const userRouter = router({
 export const contentRouter = router({
   // コンテンツ一覧
   list: protectedProcedure
-    .input(z.object({
-      tags: z.array(z.string()).optional(),
-      difficulty: z.number().min(1).max(10).optional(),
-    }))
+    .input(
+      z.object({
+        tags: z.array(z.string()).optional(),
+        difficulty: z.number().min(1).max(10).optional(),
+      })
+    )
     .query(async ({ input, ctx }) => {
       // 実装
     }),
 
   // コンテンツ詳細
   getById: protectedProcedure
-    .input(z.object({
-      id: z.string().uuid(),
-    }))
+    .input(
+      z.object({
+        id: z.string().uuid(),
+      })
+    )
     .query(async ({ input, ctx }) => {
       // 実装
     }),
@@ -537,60 +542,70 @@ interface LearningSessionState {
 本プロジェクトは以下のように分業可能：
 
 #### **チームA: フロントエンド**
+
 - **担当**: UI/UXコンポーネント
 - **ディレクトリ**: `src/app/`, `src/components/`
 - **依存関係**: tRPC型定義のみ
 - **テスト**: Vitest + Testing Library
 
 **タスク**:
+
 1. 学習画面コンポーネント開発
 2. 設定画面コンポーネント開発
 3. ダッシュボードコンポーネント開発
 4. レスポンシブデザイン実装
 
 #### **チームB: バックエンドAPI**
+
 - **担当**: tRPC API、ビジネスロジック
 - **ディレクトリ**: `src/lib/api/`, `src/lib/services/`
 - **依存関係**: Repository、Agent
 - **テスト**: Vitest + Supertest
 
 **タスク**:
+
 1. tRPCルーター実装
 2. ビジネスロジックサービス実装
 3. バリデーションスキーマ定義
 4. エラーハンドリング実装
 
 #### **チームC: AIエージェント**
+
 - **担当**: LangChainエージェント
 - **ディレクトリ**: `src/lib/agents/`
 - **依存関係**: LangChain、LLM API
 - **テスト**: Vitest + LangSmith
 
 **タスク**:
+
 1. 各エージェントの実装
 2. LangGraphフロー設計・実装
 3. プロンプトエンジニアリング
 4. エージェント評価・改善
 
 #### **チームD: データアクセス**
+
 - **担当**: データベース、Repository
 - **ディレクトリ**: `src/lib/db/`, `prisma/`
 - **依存関係**: Prisma
 - **テスト**: Vitest + Prisma Mock
 
 **タスク**:
+
 1. Prismaスキーマ設計
 2. Repository実装
 3. マイグレーション管理
 4. シードデータ作成
 
 #### **チームE: インフラ・DevOps**
+
 - **担当**: CI/CD、デプロイ、モニタリング
 - **ディレクトリ**: `.github/`, `docker/`
 - **依存関係**: 全体
 - **テスト**: E2Eテスト
 
 **タスク**:
+
 1. GitHub Actions CI/CD設定
 2. Docker化
 3. Vercelデプロイ設定
@@ -647,6 +662,7 @@ interface LearningSessionState {
 ---
 
 **文書管理**:
+
 - 作成者: Development Team
 - レビュー: Architecture Review Board
 - 承認: Technical Lead

@@ -16,13 +16,16 @@ Learning Trainer は、LangGraph ベースのマルチエージェント学習�
 ## チーム構成と担当モジュール
 
 ### 🎨 Team A: フロントエンド
+
 **担当**: UI/UXコンポーネントの開発
 
 **ディレクトリ**:
+
 - `src/app/` - Next.js App Router
 - `src/components/` - Reactコンポーネント
 
 **主なタスク**:
+
 1. 学習画面コンポーネント (`components/features/learning/`)
    - QuestionDisplay
    - AnswerInput
@@ -41,15 +44,18 @@ Learning Trainer は、LangGraph ベースのマルチエージェント学習�
    - LearningHistory
 
 **依存関係**:
+
 - tRPC型定義のみ（`src/types/api/`）
 - バックエンドはモックで開発可能
 
 **テストツール**:
+
 - Vitest
 - @testing-library/react
 - @testing-library/user-event
 
 **開始方法**:
+
 ```bash
 # Issue取得
 gh issue list --label "frontend"
@@ -64,13 +70,16 @@ pnpm test:unit -- components
 ---
 
 ### ⚙️ Team B: バックエンドAPI
+
 **担当**: tRPC API、ビジネスロジック
 
 **ディレクトリ**:
+
 - `src/lib/api/trpc/` - tRPCルーター
 - `src/lib/services/` - ビジネスロジック
 
 **主なタスク**:
+
 1. tRPCルーター実装
    - `routers/learning.ts` - 学習セッション管理
    - `routers/user.ts` - ユーザー設定管理
@@ -86,14 +95,17 @@ pnpm test:unit -- components
    - エラーハンドリング
 
 **依存関係**:
+
 - Repository（モック可能）
 - Agent（モック可能）
 
 **テストツール**:
+
 - Vitest
 - Supertest（API統合テスト）
 
 **開始方法**:
+
 ```bash
 gh issue list --label "backend"
 git checkout -b feature/backend-trpc-learning
@@ -103,12 +115,15 @@ pnpm test:integration -- api
 ---
 
 ### 🤖 Team C: AIエージェント
+
 **担当**: LangChainエージェント、LangGraphフロー
 
 **ディレクトリ**:
+
 - `src/lib/agents/` - 各種エージェント
 
 **主なタスク**:
+
 1. エージェント実装
    - `agents/content-analyzer/` - コンテンツ解析
    - `agents/learning-planner/` - 学習計画
@@ -126,15 +141,18 @@ pnpm test:integration -- api
    - Few-shot examples作成
 
 **依存関係**:
+
 - LangChain.js 0.3.x
 - OpenAI/Anthropic API
 - LangSmith（Observability）
 
 **テストツール**:
+
 - Vitest
 - LangSmith（評価）
 
 **開始方法**:
+
 ```bash
 gh issue list --label "ai-agent"
 git checkout -b feature/agent-content-analyzer
@@ -144,13 +162,16 @@ pnpm test:unit -- agents
 ---
 
 ### 💾 Team D: データアクセス
+
 **担当**: データベース、Repository
 
 **ディレクトリ**:
+
 - `prisma/` - Prismaスキーマ
 - `src/lib/db/` - データベース関連
 
 **主なタスク**:
+
 1. Prismaスキーマ設計
    - エンティティ定義
    - リレーション設定
@@ -167,14 +188,17 @@ pnpm test:unit -- agents
    - シードデータ作成
 
 **依存関係**:
+
 - PostgreSQL
 - Prisma
 
 **テストツール**:
+
 - Vitest
 - Prisma Mock
 
 **開始方法**:
+
 ```bash
 gh issue list --label "database"
 git checkout -b feature/db-prisma-schema
@@ -184,13 +208,16 @@ pnpm prisma studio
 ---
 
 ### 🚀 Team E: インフラ・DevOps
+
 **担当**: CI/CD、デプロイ、モニタリング
 
 **ディレクトリ**:
+
 - `.github/workflows/` - GitHub Actions
 - `docker/` - Docker設定（オプション）
 
 **主なタスク**:
+
 1. CI/CD設定
    - テスト自動化（GitHub Actions）
    - デプロイ自動化（Vercel）
@@ -206,13 +233,16 @@ pnpm prisma studio
    - クリティカルパステスト
 
 **依存関係**:
+
 - 全モジュール
 
 **テストツール**:
+
 - Playwright
 - GitHub Actions
 
 **開始方法**:
+
 ```bash
 gh issue list --label "infra"
 git checkout -b feature/ci-github-actions
@@ -268,6 +298,7 @@ Closes #123"
 ```
 
 Prefix:
+
 - `feat` - 新機能
 - `fix` - バグ修正
 - `test` - テスト追加
@@ -276,6 +307,7 @@ Prefix:
 - `chore` - その他
 
 Scope:
+
 - `frontend` - フロントエンド
 - `backend` - バックエンド
 - `agent` - AIエージェント
@@ -291,16 +323,20 @@ gh pr create --title "feat(frontend): add learning mode selector" \
 ```
 
 PRテンプレート:
+
 ```markdown
 ## 概要
+
 - 何を実装したか
 
 ## 変更内容
+
 - [ ] テスト追加
 - [ ] 実装完了
 - [ ] ドキュメント更新
 
 ## テスト結果
+
 - [ ] 単体テスト: ✅
 - [ ] 統合テスト: ✅
 - [ ] E2Eテスト: ✅

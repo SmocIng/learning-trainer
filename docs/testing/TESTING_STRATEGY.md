@@ -121,9 +121,9 @@ describe('UserService', () => {
       const invalidMode = 'invalid-mode' as any;
 
       // Act & Assert
-      await expect(
-        userService.updateLearningMode(userId, invalidMode)
-      ).rejects.toThrow('Invalid learning mode');
+      await expect(userService.updateLearningMode(userId, invalidMode)).rejects.toThrow(
+        'Invalid learning mode'
+      );
     });
   });
 });
@@ -169,10 +169,9 @@ export class UserService {
   ): Promise<ServiceResult<UserPreferences>> {
     this.validateLearningMode(mode);
 
-    const updatedPreferences = await this.userRepo.updatePreferences(
-      userId,
-      { learningMode: mode }
-    );
+    const updatedPreferences = await this.userRepo.updatePreferences(userId, {
+      learningMode: mode,
+    });
 
     await this.invalidateUserCache(userId);
 
@@ -211,12 +210,14 @@ export class UserService {
 ### 3.1 単体テスト（Unit Tests）
 
 **対象**:
+
 - 純粋関数
 - Reactコンポーネント
 - ユーティリティ
 - バリデーション
 
 **例**:
+
 ```typescript
 // tests/unit/utils/difficulty-calculator.test.ts
 describe('DifficultyCalculator', () => {
@@ -234,7 +235,7 @@ describe('DifficultyCalculator', () => {
     it('should not exceed max difficulty', () => {
       const result = calculateNextDifficulty({
         currentDifficulty: 10,
-        accuracyRate: 0.90,
+        accuracyRate: 0.9,
         consecutiveCorrect: 5,
         maxDifficulty: 10,
       });
@@ -248,12 +249,14 @@ describe('DifficultyCalculator', () => {
 ### 3.2 統合テスト（Integration Tests）
 
 **対象**:
+
 - APIエンドポイント
 - データベース操作
 - エージェント協調
 - 外部サービス連携
 
 **例**:
+
 ```typescript
 // tests/integration/api/learning-session.test.ts
 import { createCaller } from '@/lib/api/trpc/test-utils';
@@ -297,11 +300,13 @@ describe('Learning Session API', () => {
 ### 3.3 E2Eテスト（End-to-End Tests）
 
 **対象**:
+
 - ユーザーフロー全体
 - ブラウザ操作
 - 画面遷移
 
 **例**:
+
 ```typescript
 // tests/e2e/learning-flow.spec.ts
 import { test, expect } from '@playwright/test';
@@ -385,13 +390,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'tests/',
-        '**/*.d.ts',
-        '**/*.config.*',
-        '**/dist/**',
-      ],
+      exclude: ['node_modules/', 'tests/', '**/*.d.ts', '**/*.config.*', '**/dist/**'],
       thresholds: {
         lines: 80,
         functions: 80,
@@ -516,9 +515,7 @@ describe('Boundary Value Testing', () => {
 ```typescript
 describe('Error Handling', () => {
   it('should throw ValidationError for invalid question type', async () => {
-    await expect(
-      generateQuestion({ type: 'invalid' })
-    ).rejects.toThrow(ValidationError);
+    await expect(generateQuestion({ type: 'invalid' })).rejects.toThrow(ValidationError);
   });
 
   it('should return error response when LLM API fails', async () => {

@@ -83,12 +83,14 @@ learning-trainer/
 ## 🛠️ 技術スタック
 
 ### フロントエンド
+
 - **Framework**: Next.js 15 (App Router)
 - **UI Library**: React 19
 - **Styling**: Tailwind CSS 4.x + shadcn/ui
 - **State Management**: Zustand + TanStack Query v5
 
 ### バックエンド
+
 - **Runtime**: Node.js 22 LTS
 - **Language**: TypeScript 5.6+
 - **API**: tRPC (型安全API)
@@ -97,6 +99,7 @@ learning-trainer/
 - **Cache**: Redis 7.x / Upstash Redis
 
 ### AI/ML
+
 - **Framework**: LangGraph + LangChain.js 0.3.x
 - **LLM**: OpenAI GPT-4o, Anthropic Claude 3.5, Google Gemini
 - **Observability**: LangSmith, Helicone

@@ -48,6 +48,7 @@ Phase 7: 📋 未着手 (0%)
 - [x] CONTRIBUTING.md作成
 
 **成果物**:
+
 - リポジトリ: https://github.com/SmocIng/learning-trainer
 - ドキュメント: 完備
 
@@ -90,6 +91,7 @@ Phase 7: 📋 未着手 (0%)
 ### GitHub Issues
 
 **作成予定**:
+
 - Issue #1: [FEATURE] Next.js 15プロジェクトセットアップ
 - Issue #2: [FEATURE] ESLint/Prettier設定
 - Issue #3: [FEATURE] Vitest設定
@@ -143,6 +145,7 @@ Phase 7: 📋 未着手 (0%)
 ## Phase 3-7: 📋 未着手
 
 詳細なタスク分解は対応するTODOファイルを参照してください:
+
 - Phase 3: [TODO_PHASE3.md](TODO_PHASE3.md) (作成予定)
 - Phase 4: [TODO_PHASE4.md](TODO_PHASE4.md) (作成予定)
 - Phase 5: [TODO_PHASE5.md](TODO_PHASE5.md) (作成予定)
@@ -154,14 +157,18 @@ Phase 7: 📋 未着手 (0%)
 ## 🎯 マイルストーン
 
 ### M0: Project Initialization ✅
+
 **達成日**: 2025-11-24
+
 - [x] リポジトリ作成完了
 - [x] ドキュメント完備
 - [x] WBS/TODO定義完了
 
 ### M1: Foundation Complete 🎯
+
 **目標日**: 未定
 **達成条件**:
+
 - [ ] Next.js 15アプリが起動する
 - [ ] 認証機能が動作する
 - [ ] Prisma + PostgreSQLが動作する
@@ -170,8 +177,10 @@ Phase 7: 📋 未着手 (0%)
 - [ ] テストカバレッジ80%以上
 
 ### M2: Content Analysis Complete 📅
+
 **目標日**: 未定
 **達成条件**:
+
 - [ ] ファイルアップロード機能が動作する
 - [ ] Content Analyzerエージェントが動作する
 - [ ] コンテンツ解析結果がDBに保存される
@@ -180,6 +189,7 @@ Phase 7: 📋 未着手 (0%)
 - [ ] テストカバレッジ80%以上
 
 ### M3-M7: 📅
+
 詳細は[WBS.md](WBS.md)を参照
 
 ---
@@ -187,26 +197,31 @@ Phase 7: 📋 未着手 (0%)
 ## 📈 チーム別進捗
 
 ### Team A: Frontend
+
 **担当Phase**: Phase 4 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team B: Backend API
+
 **担当Phase**: Phase 1, 2 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team C: AI Agents
+
 **担当Phase**: Phase 2, 3 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team D: Database
+
 **担当Phase**: Phase 1 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
 
 ### Team E: Infrastructure
+
 **担当Phase**: Phase 1, 6 (メイン)
 **現在のステータス**: 待機中
 **完了タスク**: 0/XX
@@ -221,8 +236,8 @@ Phase 7: 📋 未着手 (0%)
 
 ## 📝 更新履歴
 
-| 日付 | 更新者 | 内容 |
-|------|--------|------|
+| 日付       | 更新者  | 内容                  |
+| ---------- | ------- | --------------------- |
 | 2025-11-24 | SmocIng | 初版作成、Phase 0完了 |
 
 ---
@@ -274,6 +289,7 @@ Week 3-4:
 ---
 
 **更新方法**:
+
 ```bash
 # タスク完了時
 1. このファイルの該当タスクを✅に変更
