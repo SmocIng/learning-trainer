@@ -10,6 +10,8 @@
 - `pnpm lint` : 成功 (eslint.config.mjs で flat config 化・Next.js/TypeScript/Prettier 連携済み)
 - `pnpm dev --hostname 127.0.0.1 --port 3000` : 起動確認 (Next.js 16.0.3 Turbopack、Ready 表示を確認)
 - `pnpm build` : 成功 (Next.js 16.0.3、`--webpack` フラグでビルド)
+- `pnpm test:unit` / `pnpm test:integration` : 成功 (Vitest, jsdom)
+- `pnpm test:e2e --project=chromium` : 成功 (Playwright)
 
 ---
 
@@ -152,13 +154,13 @@ export default defineConfig({
 
 **テスト要件**:
 
-- [ ] `tests/setup.ts` - テストセットアップファイル作成
-- [ ] サンプルテスト作成して動作確認
+- [x] `tests/setup.ts` - テストセットアップファイル作成
+- [x] サンプルテスト作成して動作確認
 
 **完了条件**:
 
-- [ ] Vitest設定完了
-- [ ] テストが実行できる
+- [x] Vitest設定完了
+- [x] テストが実行できる
 - [ ] カバレッジレポートが生成される
 - [ ] CI対応のスクリプトが動作
 
@@ -206,12 +208,12 @@ export default defineConfig({
 
 **テスト要件**:
 
-- [ ] `tests/e2e/basic.test.ts` - トップページアクセステスト
+- [x] `tests/e2e/basic.test.ts` - トップページアクセステスト
 
 **完了条件**:
 
-- [ ] Playwright設定完了
-- [ ] E2Eテストが実行できる
+- [x] Playwright設定完了
+- [x] E2Eテストが実行できる
 - [ ] CI統合準備完了
 
 ---
@@ -1126,7 +1128,7 @@ describe('tRPC Client', () => {
 
 - [x] Next.js 15プロジェクト起動
 - [x] ESLint/Prettier設定
-- [ ] Vitest動作確認
+- [x] Vitest動作確認
 - [ ] GitHub Actions CI動作
 - [ ] Prismaスキーマ完成
 - [ ] マイグレーション実行
@@ -1135,7 +1137,7 @@ describe('tRPC Client', () => {
 
 ### 推奨項目 (P1)
 
-- [ ] Playwright E2E設定
+- [x] Playwright E2E設定
 - [ ] Codecovカバレッジ連携
 
 ### オプション項目 (P2)
