@@ -20,7 +20,13 @@ describe('Prisma Client', () => {
     const result = await prisma.$queryRaw<
       { current_database: string }[]
     >`SELECT current_database()`;
-    expect(result[0].current_database).toBe('learning_trainer');
+
+    // Extract expected database name from DATABASE_URL
+    const databaseUrl = process.env.DATABASE_URL || '';
+    const dbNameMatch = databaseUrl.match(/\/([^/?]+)(\?|$)/);
+    const expectedDbName = dbNameMatch ? dbNameMatch[1] : 'learning_trainer';
+
+    expect(result[0].current_database).toBe(expectedDbName);
   });
 
   it('should check pgvector extension availability', async () => {
