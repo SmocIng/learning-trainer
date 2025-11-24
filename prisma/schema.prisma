@@ -1,0 +1,209 @@
+// Learning Trainer - Prisma Schema
+// AI-powered adaptive learning system with personalized content delivery
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+// ============================================================================
+// USER MODELS
+// ============================================================================
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  preferences UserPreferences?
+  sessions    LearningSession[]
+  progress    LearningProgress?
+
+  @@map("users")
+}
+
+model UserPreferences {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Learning Mode: quick, standard, intensive, custom
+  learningMode String @default("standard")
+
+  // Custom Settings (JSONB) - flexible configuration storage
+  customSettings Json?
+
+  // Scheduling
+  schedulingEnabled Boolean @default(false)
+  schedulingConfig  Json?
+
+  // Feedback Settings
+  feedbackSettings Json?
+
+  // Gamification
+  gamificationSettings Json?
+
+  // Accessibility
+  accessibilitySettings Json?
+
+  // Data & Privacy
+  dataPrivacy Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_preferences")
+}
+
+// ============================================================================
+// CONTENT MODELS
+// ============================================================================
+
+model Content {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  filePath    String
+  fileType    String // pdf, md, txt, etc.
+
+  // Analysis results
+  analyzedAt DateTime?
+  topics     String[]
+  difficulty Int? // 1-10
+
+  // Vector embedding for similarity search (pgvector)
+  embedding Unsupported("vector(1536)")?
+
+  // Relations
+  sessions  LearningSession[]
+  questions Question[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contents")
+}
+
+// ============================================================================
+// LEARNING SESSION MODELS
+// ============================================================================
+
+model LearningSession {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  mode   String @default("standard") // quick, standard, intensive, custom
+  status String @default("active") // active, completed, paused
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  // Progress metrics
+  totalQuestions    Int @default(0)
+  answeredQuestions Int @default(0)
+  correctAnswers    Int @default(0)
+
+  // Relations
+  interactions Interaction[]
+
+  @@map("learning_sessions")
+}
+
+model Question {
+  id        String  @id @default(cuid())
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  type         String // multiple-choice, free-text, fill-blank, etc.
+  questionText String
+
+  // Options (JSONB) - for multiple choice questions
+  options Json?
+
+  // Correct answer
+  correctAnswer Json
+
+  // Explanation
+  explanation String?
+
+  // Difficulty level
+  difficulty Int @default(5) // 1-10
+
+  // Relations
+  interactions Interaction[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("questions")
+}
+
+model Interaction {
+  id         String          @id @default(cuid())
+  sessionId  String
+  session    LearningSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  questionId String
+  question   Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  userAnswer Json
+  isCorrect  Boolean
+  timeSpent  Int // seconds
+
+  // Feedback
+  feedback String?
+  hints    String[]
+
+  // Spaced Repetition (SuperMemo SM-2 algorithm)
+  nextReviewAt    DateTime?
+  repetitionCount Int       @default(0)
+  easeFactor      Float     @default(2.5)
+  interval        Int       @default(0) // days
+
+  createdAt DateTime @default(now())
+
+  @@map("interactions")
+}
+
+// ============================================================================
+// PROGRESS TRACKING MODELS
+// ============================================================================
+
+model LearningProgress {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Statistics
+  totalSessions  Int @default(0)
+  totalQuestions Int @default(0)
+  correctAnswers Int @default(0)
+  totalTimeSpent Int @default(0) // seconds
+
+  // Level & Experience
+  level            Int @default(1)
+  experiencePoints Int @default(0)
+
+  // Streak tracking
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastStudyDate DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("learning_progress")
+}
