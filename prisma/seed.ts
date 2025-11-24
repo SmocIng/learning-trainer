@@ -58,8 +58,7 @@ async function main() {
   const content1 = await prisma.content.create({
     data: {
       title: 'Introduction to TypeScript',
-      description:
-        'Learn the basics of TypeScript including types, interfaces, and generics.',
+      description: 'Learn the basics of TypeScript including types, interfaces, and generics.',
       filePath: '/content/typescript-intro.md',
       fileType: 'md',
       topics: ['TypeScript', 'Programming', 'JavaScript'],
@@ -109,17 +108,9 @@ async function main() {
       data: {
         contentId: content1.id,
         type: 'free-text',
-        questionText:
-          'Explain the difference between "interface" and "type" in TypeScript.',
+        questionText: 'Explain the difference between "interface" and "type" in TypeScript.',
         correctAnswer: {
-          keywords: [
-            'interface',
-            'type',
-            'extend',
-            'union',
-            'intersection',
-            'declaration merging',
-          ],
+          keywords: ['interface', 'type', 'extend', 'union', 'intersection', 'declaration merging'],
         },
         explanation:
           'Interfaces can be extended and merged, while types can use unions and intersections. Both can describe object shapes.',
@@ -131,7 +122,7 @@ async function main() {
   console.log(`✅ Created ${questions.length} sample questions`);
 
   // Create a sample learning session
-  const session = await prisma.learningSession.create({
+  await prisma.learningSession.create({
     data: {
       userId: user.id,
       contentId: content1.id,
@@ -161,8 +152,7 @@ async function main() {
             userAnswer: { answer: 'type' },
             isCorrect: false,
             timeSpent: 60,
-            feedback:
-              'Not quite. TypeScript provides both "type" and "interface" keywords.',
+            feedback: 'Not quite. TypeScript provides both "type" and "interface" keywords.',
             hints: ['Think about multiple ways to define types in TypeScript'],
             nextReviewAt: new Date(Date.now() + 600000), // 10 minutes from now
             repetitionCount: 0,

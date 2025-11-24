@@ -9,7 +9,15 @@ const projectRoot = path.dirname(new URL(import.meta.url).pathname);
 
 export default [
   {
-    ignores: ['.next/**', 'node_modules/**', 'dist/**', 'coverage/**', 'next-env.d.ts'],
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'dist/**',
+      'coverage/**',
+      'next-env.d.ts',
+      'src/generated/**',
+      'prisma/**',
+    ],
   },
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
