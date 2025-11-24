@@ -90,22 +90,22 @@ Phase 7: 📋 未着手 (0%)
 
 ### GitHub Issues
 
-**作成予定**:
+**作成状況**:
 
-- Issue #1: [FEATURE] Next.js 15プロジェクトセットアップ
-- Issue #2: [FEATURE] ESLint/Prettier設定
-- Issue #3: [FEATURE] Vitest設定
-- Issue #4: [FEATURE] Playwright E2Eテスト設定
-- Issue #5: [FEATURE] GitHub Actions CI設定
-- Issue #6: [FEATURE] Prismaセットアップ
-- Issue #7: [FEATURE] Prismaスキーマ設計
-- Issue #8: [FEATURE] マイグレーション実行
-- Issue #9: [FEATURE] シードデータ作成
-- Issue #10: [FEATURE] NextAuth.js設定
-- Issue #11: [FEATURE] 認証ミドルウェア
-- Issue #12: [FEATURE] ユーザー登録API
-- Issue #13: [FEATURE] tRPCセットアップ
-- Issue #14: [FEATURE] tRPCクライアント設定
+- [ ] Issue #1: [FEATURE] Next.js 15プロジェクトセットアップ
+- [ ] Issue #2: [FEATURE] ESLint/Prettier設定
+- [ ] Issue #3: [FEATURE] Vitest設定
+- [ ] Issue #4: [FEATURE] Playwright E2Eテスト設定
+- [x] Issue #5: [FEATURE] GitHub Actions CI設定
+- [x] Issue #6: [FEATURE] Prismaセットアップ
+- [x] Issue #7: [FEATURE] Prismaスキーマ設計
+- [x] Issue #8: [FEATURE] マイグレーション実行
+- [x] Issue #9: [FEATURE] シードデータ作成
+- [x] Issue #10: [FEATURE] NextAuth.js設定
+- [x] Issue #11: [FEATURE] 認証ミドルウェア
+- [x] Issue #12: [FEATURE] ユーザー登録API
+- [x] Issue #13: [FEATURE] tRPCセットアップ
+- [x] Issue #14: [FEATURE] tRPCクライアント設定
 
 ---
 
