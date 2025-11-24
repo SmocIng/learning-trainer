@@ -136,8 +136,8 @@ export default defineConfig({
 **完了条件**:
 - [x] Vitest設定完了
 - [x] テストが実行できる
-- [x] カバレッジレポートが生成される
-- [x] CI対応のスクリプトが動作
+- [ ] カバレッジレポートが生成される
+- [ ] CI対応のスクリプトが動作
 
 ---
 
@@ -186,7 +186,7 @@ export default defineConfig({
 **完了条件**:
 - [x] Playwright設定完了
 - [x] E2Eテストが実行できる
-- [x] CI統合準備完了
+- [ ] CI統合準備完了
 
 ---
 
