@@ -5,6 +5,14 @@
 
 ---
 
+## 最新確認 (2025-11-24)
+- `pnpm format:check` : 成功
+- `pnpm lint` : 成功 (eslint.config.mjs で flat config 化・Next.js/TypeScript/Prettier 連携済み)
+- `pnpm dev --hostname 127.0.0.1 --port 3000` : 起動確認 (Next.js 16.0.3 Turbopack、Ready 表示を確認)
+- `pnpm build` : 成功 (Next.js 16.0.3、`--webpack` フラグでビルド)
+
+---
+
 ## 1.1 プロジェクト初期化 (P0) - 2人日
 
 ### Task 1.1.1: Next.js 15プロジェクトセットアップ
@@ -65,14 +73,14 @@ pnpm add -D @testing-library/jest-dom @testing-library/react
 
 **設定ファイル作成**:
 
-- [ ] `.eslintrc.json` - TypeScript strict rules
-- [ ] `.prettierrc` - Code formatting
-- [ ] `.vscode/settings.json` - VS Code統合
+- [x] `.eslintrc.json` - TypeScript strict rules
+- [x] `.prettierrc` - Code formatting
+- [x] `.vscode/settings.json` - VS Code統合
 
 **テスト要件**:
 
-- [ ] `pnpm lint` がエラーなく実行される
-- [ ] `pnpm format` で全ファイルがフォーマットされる
+- [x] `pnpm lint` がエラーなく実行される (eslint.config.mjs で成功)
+- [x] `pnpm format` で全ファイルがフォーマットされる
 
 **完了条件**:
 
@@ -149,10 +157,10 @@ export default defineConfig({
 
 **完了条件**:
 
-- [x] Vitest設定完了
-- [x] テストが実行できる
-- [x] カバレッジレポートが生成される
-- [x] CI対応のスクリプトが動作
+- [ ] Vitest設定完了
+- [ ] テストが実行できる
+- [ ] カバレッジレポートが生成される
+- [ ] CI対応のスクリプトが動作
 
 ---
 
@@ -202,9 +210,9 @@ export default defineConfig({
 
 **完了条件**:
 
-- [x] Playwright設定完了
-- [x] E2Eテストが実行できる
-- [x] CI統合準備完了
+- [ ] Playwright設定完了
+- [ ] E2Eテストが実行できる
+- [ ] CI統合準備完了
 
 ---
 
@@ -284,9 +292,9 @@ jobs:
 
 **完了条件**:
 
-- [x] GitHub Actions設定完了
-- [x] PRでCIが自動実行される
-- [x] テスト失敗時にPRがブロックされる
+- [ ] GitHub Actions設定完了
+- [ ] PRでCIが自動実行される
+- [ ] テスト失敗時にPRがブロックされる
 
 ---
 
@@ -319,9 +327,9 @@ echo "DATABASE_URL=\"postgresql://user:password@localhost:5432/learning_trainer\
 
 **完了条件**:
 
-- [x] Prismaがインストールされている
-- [x] prisma/schema.prisma が存在する
-- [x] .env に DATABASE_URL が設定されている
+- [ ] Prismaがインストールされている
+- [ ] prisma/schema.prisma が存在する
+- [ ] .env に DATABASE_URL が設定されている
 
 ---
 
@@ -560,10 +568,10 @@ describe('Prisma Schema', () => {
 
 **完了条件**:
 
-- [x] スキーマ定義完了
-- [x] リレーション設定完了
-- [x] インデックス最適化完了
-- [x] テストが全てパス
+- [ ] スキーマ定義完了
+- [ ] リレーション設定完了
+- [ ] インデックス最適化完了
+- [ ] テストが全てパス
 
 ---
 
@@ -589,9 +597,9 @@ pnpm prisma generate
 
 **完了条件**:
 
-- [x] マイグレーション成功
-- [x] Prisma Client生成完了
-- [x] Prisma Studio で確認可能
+- [ ] マイグレーション成功
+- [ ] Prisma Client生成完了
+- [ ] Prisma Studio で確認可能
 
 ---
 
@@ -651,9 +659,9 @@ main()
 
 **完了条件**:
 
-- [x] シードスクリプト作成
-- [x] `pnpm prisma db seed` で実行可能
-- [x] テストデータが投入される
+- [ ] シードスクリプト作成
+- [ ] `pnpm prisma db seed` で実行可能
+- [ ] テストデータが投入される
 
 ---
 
@@ -758,10 +766,10 @@ describe('Authentication', () => {
 
 **完了条件**:
 
-- [x] NextAuth.js設定完了
-- [x] ログイン/ログアウト動作確認
-- [x] セッション管理動作確認
-- [x] テストが全てパス
+- [ ] NextAuth.js設定完了
+- [ ] ログイン/ログアウト動作確認
+- [ ] セッション管理動作確認
+- [ ] テストが全てパス
 
 ---
 
@@ -822,9 +830,9 @@ describe('Auth Middleware', () => {
 
 **完了条件**:
 
-- [x] ミドルウェア実装完了
-- [x] 未認証ユーザーのリダイレクト確認
-- [x] テストが全てパス
+- [ ] ミドルウェア実装完了
+- [ ] 未認証ユーザーのリダイレクト確認
+- [ ] テストが全てパス
 
 ---
 
@@ -930,9 +938,9 @@ describe('POST /api/auth/signup', () => {
 
 **完了条件**:
 
-- [x] サインアップAPI実装完了
-- [x] バリデーション動作確認
-- [x] テストが全てパス
+- [ ] サインアップAPI実装完了
+- [ ] バリデーション動作確認
+- [ ] テストが全てパス
 
 ---
 
@@ -1014,9 +1022,9 @@ export { handler as GET, handler as POST };
 
 **完了条件**:
 
-- [x] tRPCセットアップ完了
-- [x] protectedProcedure動作確認
-- [x] クライアント接続確認
+- [ ] tRPCセットアップ完了
+- [ ] protectedProcedure動作確認
+- [ ] クライアント接続確認
 
 ---
 
@@ -1106,9 +1114,9 @@ describe('tRPC Client', () => {
 
 **完了条件**:
 
-- [x] クライアント設定完了
-- [x] React Queryラッパー動作確認
-- [x] テストが全てパス
+- [ ] クライアント設定完了
+- [ ] React Queryラッパー動作確認
+- [ ] テストが全てパス
 
 ---
 
@@ -1116,8 +1124,8 @@ describe('tRPC Client', () => {
 
 ### 必須項目 (P0)
 
-- [ ] Next.js 15プロジェクト起動
-- [ ] ESLint/Prettier設定
+- [x] Next.js 15プロジェクト起動
+- [x] ESLint/Prettier設定
 - [ ] Vitest動作確認
 - [ ] GitHub Actions CI動作
 - [ ] Prismaスキーマ完成
